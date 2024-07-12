@@ -1,0 +1,41 @@
+{{- if and (eq (include "seleniumGrid.useKEDA" $) "true") $.Values.autoscaling.patchObjectFinalizers.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "seleniumGrid.keda.patchObjectsJob.fullname" $ }}
+  namespace: {{ .Release.Namespace }}
+  {{- with $.Values.autoscaling.patchObjectFinalizers.annotations }}
+  annotations: &patch_objects_job_annotations
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels: &patch_objects_job_labels
+    app: {{ template "seleniumGrid.keda.patchObjectsJob.fullname" $ }}
+    app.kubernetes.io/name: {{ template "seleniumGrid.keda.patchObjectsJob.fullname" $ }}
+    {{- include "seleniumGrid.commonLabels" $ | nindent 4 }}
+  {{- with $.Values.customLabels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  template:
+    metadata:
+      {{- with $.Values.autoscaling.patchObjectFinalizers.annotations }}
+      annotations: *patch_objects_job_annotations
+      {{- end }}
+      labels: *patch_objects_job_labels
+      name: {{ template "seleniumGrid.keda.patchObjectsJob.fullname" $ }}
+    spec:
+      activeDeadlineSeconds: {{ $.Values.autoscaling.patchObjectFinalizers.activeDeadlineSeconds }}
+      serviceAccountName: {{ template "seleniumGrid.serviceAccount.fullname" $ }}
+      serviceAccount: {{ template "seleniumGrid.serviceAccount.fullname" $ }}
+      containers:
+        - name: {{ template "seleniumGrid.keda.patchObjectsJob.fullname" $ }}
+          image: {{ $.Values.global.seleniumGrid.kubectlImage }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Cleaning up ScaledObjects, ScaledJobs and HPAs for {{ .Release.Name }} when upgrading or disabling autoscaling."
+              kubectl get ScaledObjects,ScaledJobs -n {{ .Release.Namespace }} -l component.autoscaling={{ .Release.Name }} -o=json | jq '.metadata.finalizers = null' | kubectl apply -f - || true ;
+              kubectl delete ScaledObjects,ScaledJobs -n {{ .Release.Namespace }} -l component.autoscaling={{ .Release.Name }} --wait || true ;
+              kubectl delete hpa -n {{ .Release.Namespace }} -l component.autoscaling={{ .Release.Name }} --wait || true ;
+      restartPolicy: Never
+{{- end }}

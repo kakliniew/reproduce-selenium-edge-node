@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: selenium-grid
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: /path/to/local/selenium-grid
+    repoURL: 'file://C:\repository\git\selenium_grid_bug_reproduce\selenium-grid'
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: hub.replicaCount
+          value: "1"
+        - name: chromeNodes.enabled
+          value: "false"
+        - name: firefoxNodes.enabled
+          value: "false"
+        - name: edgeNodes.enabled
+          value: "true"
+        - name: edgeNodes.replicaCount
+          value: "2"
+        - name: hub.image.tag
+          value: "4.15.0"
+        - name: edgeNodes.image.tag
+          value: "4.15.0"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: selenium-grid
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
