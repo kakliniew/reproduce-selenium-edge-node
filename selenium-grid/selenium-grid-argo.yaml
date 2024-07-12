@@ -6,25 +6,33 @@ metadata:
 spec:
   project: default
   source:
-    path: /path/to/local/selenium-grid
-    repoURL: 'file://C:\repository\git\selenium_grid_bug_reproduce\selenium-grid'
-    targetRevision: HEAD
+    repoURL: https://github.com/kakliniew/reproduce-selenium-edge-node
+    path: selenium-grid
+    targetRevision: master
     helm:
       parameters:
         - name: hub.replicaCount
           value: "1"
-        - name: chromeNodes.enabled
+        - name: chromeNode.enabled
           value: "false"
-        - name: firefoxNodes.enabled
+        - name: firefoxNode.enabled
           value: "false"
-        - name: edgeNodes.enabled
+        - name: edgeNode.enabled
           value: "true"
-        - name: edgeNodes.replicaCount
+        - name: edgeNode.replicaCount
           value: "2"
         - name: hub.image.tag
           value: "4.15.0"
-        - name: edgeNodes.image.tag
+        - name: edgeNode.image.tag
           value: "4.15.0"
+        - name: hub.extraEnvironmentVariables[0].name
+          value: "SE_JAVA_OPTS"
+        - name: hub.extraEnvironmentVariables[0].value
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+        - name: edgeNode.extraEnvironmentVariables[0].name
+          value: "SE_JAVA_OPTS"
+        - name: edgeNode.extraEnvironmentVariables[0].value
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
   destination:
     server: https://kubernetes.default.svc
     namespace: selenium-grid
