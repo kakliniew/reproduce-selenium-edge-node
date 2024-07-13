@@ -11,19 +11,21 @@ spec:
     targetRevision: master
     helm:
       parameters:
+        - name: global.seleniumGrid.logLevel
+          value: "DEBUG"
+        - name: basicAuth.enabled
+          value: "false"
         - name: hub.replicaCount
           value: "1"
-        - name: chromeNode.enabled
-          value: "false"
-        - name: firefoxNode.enabled
-          value: "false"
         - name: edgeNode.enabled
           value: "true"
-        - name: edgeNode.replicaCount
-          value: "2"
+        - name: firefoxNode.enabled
+          value: "false"
+        - name: chromeNode.enabled
+          value: "false"
         - name: hub.image.tag
           value: "4.15.0"
-        - name: edgeNode.image.tag
+        - name: global.seleniumGrid.nodesImageTag
           value: "4.15.0"
         - name: hub.extraEnvironmentVariables[0].name
           value: "SE_JAVA_OPTS"
@@ -32,6 +34,14 @@ spec:
         - name: edgeNode.extraEnvironmentVariables[0].name
           value: "SE_JAVA_OPTS"
         - name: edgeNode.extraEnvironmentVariables[0].value
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+        - name: chromeNode.extraEnvironmentVariables[0].name
+          value: "SE_JAVA_OPTS"
+        - name: chromeNode.extraEnvironmentVariables[0].value
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+        - name: firefoxNode.extraEnvironmentVariables[0].name
+          value: "SE_JAVA_OPTS"
+        - name: firefoxNode.extraEnvironmentVariables[0].value
           value: "-XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
   destination:
     server: https://kubernetes.default.svc

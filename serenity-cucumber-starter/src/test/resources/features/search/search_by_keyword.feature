@@ -5,6 +5,57 @@ Feature: Search by keyword
     Given Sergey is researching things on the internet
     When he looks up "green"
     Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
+    Given Sergey is researching things on the internet
+    When he looks up "green"
+    Then he should see information about "green"
 
   @red
   Scenario: Searching for 'red'
