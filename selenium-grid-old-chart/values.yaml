@@ -8,6 +8,8 @@ global:
 # Deploy Router, Distributor, EventBus, SessionMap and Nodes separately
 isolateComponents: false
 
+tls:
+  enabled: false
 
 ingress:
   # Enable or disable ingress resource
@@ -35,7 +37,7 @@ ingress:
   paths: []
   # TLS backend configuration for ingress resource
   tls: []
-  
+
 # ConfigMap that contains SE_EVENT_BUS_HOST, SE_EVENT_BUS_PUBLISH_PORT and SE_EVENT_BUS_SUBSCRIBE_PORT variables
 busConfigMap:
   # Name of the configmap
