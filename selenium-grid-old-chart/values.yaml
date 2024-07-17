@@ -10,6 +10,28 @@ isolateComponents: false
 
 tls:
   enabled: false
+  ingress:
+    generateTLS: false
+    defaultName: "SeleniumHQ"
+    defaultDays: 3650
+    defaultCN: "www.selenium.dev"
+    # or *.domain.com
+    defaultSANList: []
+    #  - domain.com
+    #  - production.domain.com
+    defaultIPList: []
+    #  - 10.10.10.10
+  defaultFile:
+    certificate: "certs/selenium.pem"
+    privateKey: "certs/selenium.pkcs8.base64"
+    trustStore: "certs/selenium.jks"
+  certificate:
+  privateKey:
+  trustStore:
+  trustStorePassword: "changeit"
+  registrationSecret:
+    enabled: false
+    value: "HappyTesting"
 
 ingress:
   # Enable or disable ingress resource
