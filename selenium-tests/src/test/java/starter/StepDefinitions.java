@@ -13,9 +13,11 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.remote.http.ClientConfig;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.List;
 
@@ -42,7 +44,13 @@ public class StepDefinitions {
         EdgeOptions options = new EdgeOptions();
         options.addArguments("remote-allow-or","test-type", "ignore-certificate-errors",
         "incognito", "disable-infobars", "disable-gpu", "disable-default-apps", "disable-popup-blocking","start-maximized", "disable-dev-shm-usage", "--disable-dev-shm-usage", "disable-web-security", "disable-translate");
-        driver = new RemoteWebDriver(new URL("http://selenium-grid-selenium-hub.selenium-grid/wd/hub"), options);
+        driver = RemoteWebDriver.builder()
+        .address(new URL("http://selenium-grid-selenium-hub.selenium-grid/wd/hub"))
+        .config(ClientConfig.defaultConfig().version(HttpClient.Version.HTTP_2.name()))
+        .oneOf(options)
+        .build();
+        
+        // driver = new RemoteWebDriver(new URL("http://selenium-grid-selenium-hub.selenium-grid/wd/hub"), options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10)); 
     }
 
@@ -55,47 +63,35 @@ public class StepDefinitions {
     public void i_click_on_the_submit_button() {
         System.out.println("I click on the submit butto");
         WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"HTML1\"]/div[1]/table/tbody/tr[2]/td[2]")));
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
-        }
+       
         submitButton.click();
     }
 
     @Then("I should see {string}")
     public void i_should_see(String expectedMessage) {
-        try {
-            Thread.sleep(20000);
-        } catch (Exception e) {
-        }
+    
         System.out.println("I should see " + expectedMessage);
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"HTML1\"]/div[1]/table/tbody/tr[2]/td[1]")));
         assertEquals(expectedMessage, errorMessage.getText());
-        List<WebElement> elementy = driver.findElements(By.xpath("//*[@id=\"HTML1\"]/div[1]/table/tbody/tr[2]/td"));
-        assertEquals(elementy.size(), 4);
+        List<WebElement> elements = driver.findElements(By.xpath("//td"));
+        for(int i=0; i<50000; i++){
+            elements.get(0).getAttribute("innerHTML").trim();
+        
+        }
+       
     }
 
     @When("I fill out the form with:")
     public void i_fill_out_the_form_with(List<List<String>> formData) {
-        try {
-            Thread.sleep(22000);
-        } catch (Exception e) {
-        }
+        
         System.out.println("Starting filling inputs");
         WebElement nameInput = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div[1]/div/div/div[1]/div[1]/div/div/div/div/div[2]/div[1]/input[@id=\"name\" and not (@hidden)]"));
         System.out.println("Printing tagname " + nameInput.getTagName() + nameInput.isDisplayed());
         
         nameInput.clear();
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
-        }
-        nameInput.sendKeys(formData.get(0).get(1)); 
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
-        }
        
+        nameInput.sendKeys(formData.get(0).get(1)); 
+        
         nameInput.click();
         moveElementIntoView(nameInput);
 

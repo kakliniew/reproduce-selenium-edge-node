@@ -7,11 +7,10 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kakliniew/reproduce-selenium-edge-node
-    path: selenium-grid
+    path: selenium-grid-old-chart
     targetRevision: master
     helm:
       parameters:
-       
         - name: basicAuth.enabled
           value: "false"
         - name: hub.replicaCount
