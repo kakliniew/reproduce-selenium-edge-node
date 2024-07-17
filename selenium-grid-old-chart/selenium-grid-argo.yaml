@@ -24,9 +24,9 @@ spec:
         - name: chromeNode.enabled
           value: "false"
         - name: global.seleniumGrid.imageTag
-          value: "4.22.0"
+          value: 4.22.0
         - name: global.seleniumGrid.nodesImageTag
-          value: "4.22.0"
+          value: 4.22.0
         - name: hub.extraEnvironmentVariables[0].name
           value: "SE_JAVA_OPTS"
         - name: hub.extraEnvironmentVariables[0].value

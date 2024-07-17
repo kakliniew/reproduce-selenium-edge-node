@@ -24,6 +24,10 @@ dependencies {
 
 test {
     useJUnit()
-    testLogging.showStandardStreams = true
+    testLogging {
+        showStandardStreams true
+        exceptionFormat "full"
+        events "failed"
+    }
     systemProperty "logback.configurationFile", file("src/test/resources/logback-test.xml").absolutePath
 }
