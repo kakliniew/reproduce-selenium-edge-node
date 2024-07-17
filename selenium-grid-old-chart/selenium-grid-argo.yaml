@@ -15,7 +15,8 @@ spec:
           value: "false"
         - name: hub.replicaCount
           value: "1"
-     
+        - name: ingress.enabled
+          value: "true"
         - name: edgeNode.enabled
           value: "true"
         - name: firefoxNode.enabled

@@ -8,6 +8,34 @@ global:
 # Deploy Router, Distributor, EventBus, SessionMap and Nodes separately
 isolateComponents: false
 
+
+ingress:
+  # Enable or disable ingress resource
+  enabled: true
+  # Name of ingress class to select which controller will implement ingress resource
+  className: ""
+  # Refer to list nginx annotations: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#annotations
+  nginx:
+    proxyTimeout: 3600
+    proxyBuffer:
+      size: 512M
+      number: 4
+  ports:
+    http: 80
+    https: 443
+  # Custom annotations for ingress resource
+  annotations: {}
+  # Default host for the ingress resource
+  hostname: ""
+  # Default host path for the ingress resource
+  path: /
+  # Default path type for the ingress resource
+  pathType: Prefix
+  # List of paths for the ingress resource. This will override the default path
+  paths: []
+  # TLS backend configuration for ingress resource
+  tls: []
+  
 # ConfigMap that contains SE_EVENT_BUS_HOST, SE_EVENT_BUS_PUBLISH_PORT and SE_EVENT_BUS_SUBSCRIBE_PORT variables
 busConfigMap:
   # Name of the configmap
